@@ -1,4 +1,0 @@
-label.obrigatorio::before {
-    content: "* ";
-    color: red;
-}
