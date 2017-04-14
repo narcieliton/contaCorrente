@@ -1,0 +1,201 @@
+<div data-ng-controller="ContaCorrenteController">
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <fieldset>
+                    <legend>{{'LABEL.SISTEMA_GERENCIADOR_CONTA_CORRENTE' | translate}}</legend>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container" id="idConsultaController">
+        <div class="row">
+                <div data-ng-show="etapa === '1'">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label class="control-label"><translate>LABEL.CPF</translate></label>
+                            <input class="form-control" data-ng-model="bean.cliente.cpf" data-ng-blur="consultar(bean.cliente.cpf)" ui-br-cpf-mask>
+                        </div>
+                        <div class="col-md-10">
+                            <label class="control-label"><translate>LABEL.NOME</translate></label>
+                            <input class="form-control" data-ng-model="bean.cliente.nome" maxlength="60">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="text-right">
+                                <button type="button" class="btn btn-warning botao" data-ng-click="cadastrar();">
+                                    <span class="glyphicon glyphicon-refresh">&nbsp;</span><translate>LABEL.CADASTRAR</translate>
+                                </button>
+                                <button type="button" class="btn btn-warning botao" data-ng-click="limpar();">
+                                    <span class="glyphicon glyphicon-refresh">&nbsp;</span><translate>LABEL.LIMPAR</translate>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-ng-show="etapa === '2'">
+                    <form name="formCadastro" novalidate autocomplete="off">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <fieldset>
+                                <legend>{{'LABEL.DADOS_DO_CLIENTE' | translate}}</legend>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2" data-ng-class="{'has-error' : formCadastro.cpf.$error.required && (!formCadastro.cpf.$pristine || formCadastro.$submitted)}">
+                            <label class="control-label obrigatorio"><translate>LABEL.CPF</translate></label>
+                            <input class="form-control" id="cpf" name="cpf" data-ng-model="bean.cliente.cpf" ui-br-cpf-mask
+                                   required="true" data-ng-blur="consultar(bean.cliente.cpf)"/>
+                        </div>
+                        <div class="col-md-7" data-ng-class="{'has-error' : formCadastro.nome.$error.required && (!formCadastro.nome.$pristine || formCadastro.$submitted)}">
+                            <label class="control-label obrigatorio"><translate>LABEL.NOME</translate></label>
+                            <input class="form-control" id="nome" name="nome"  data-ng-model="bean.cliente.nome" required="true" maxlength="60"/>
+                        </div>
+                        <div class="col-md-3" data-ng-class="{'has-error' : formCadastro.dataNascimento.$error.required && (!formCadastro.dataNascimento.$pristine || formCadastro.$submitted)}">
+                            <label-input-data ng-id="dataNascimento" ng-label="LABEL.DATA_DE_NASCIMENTO" ng-model="bean.cliente.dataNascimento"
+                                              form="formCadastro" ng-obrigatorio="true"></label-input-data>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4" data-ng-class="{'has-error' : formCadastro.email.$error.required && (!formCadastro.email.$pristine || formCadastro.$submitted)}">
+                            <label class="control-label obrigatorio"><translate>LABEL.EMAIL</translate></label>
+                            <input class="form-control" id="email" name="email" data-ng-model="bean.cliente.email"
+                                   required="true" maxlength="60"/>
+                        </div>
+                        <div class="col-md-2" data-ng-class="{'has-error' : formCadastro.telefone.$error.required && (!formCadastro.telefone.$pristine || formCadastro.$submitted)}">
+                            <label class="control-label obrigatorio"><translate>LABEL.TELEFONE</translate></label>
+                            <input class="form-control" id="telefone" name="telefone"
+                                   data-ng-model="bean.cliente.telefone" ui-br-phone-number
+                                   required="true"/>
+                        </div>
+                        <div class="col-md-6" data-ng-class="{'has-error' : formCadastro.endereco.$error.required && (!formCadastro.endereco.$pristine || formCadastro.$submitted)}">
+                            <label class="control-label obrigatorio"><translate>LABEL.ENDERECO</translate></label>
+                            <input class="form-control" id="endereco" name="endereco" data-ng-model="bean.cliente.endereco"
+                                   required="true" maxlength="60"/>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="text-right">
+                                <button type="button" class="btn btn-warning botao" data-ng-click="limpar();">
+                                    <span class="glyphicon glyphicon-refresh">&nbsp;</span><translate>LABEL.LIMPAR</translate>
+                                </button>
+                                <button class="btn btn-warning botao" data-ng-click="salvar();">
+                                    <span class="glyphicon glyphicon-ok">&nbsp;</span><translate>LABEL.SALVAR</translate>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div data-ng-show="etapa === '3'">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <fieldset>
+                                <legend>{{'LABEL.DADOS_DA_CONTA' | translate}}</legend>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="control-label"><translate>LABEL.DATA_DE_CADASTRO</translate></label>
+                            <output>{{bean.cliente.dataCadastro | date:'dd/MM/yyyy'}}</output>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label class="control-label"><translate>LABEL.CPF</translate></label>
+                            <output>{{bean.cliente.cpf | getCpfOrCnpj}}</output>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label"><translate>LABEL.NOME</translate></label>
+                            <output>{{bean.cliente.nome}}</output>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label"><translate>LABEL.DATA_DE_NASCIMENTO</translate></label>
+                            <output>{{bean.cliente.dataNascimento | date:'dd/MM/yyyy'}}</output>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="control-label"><translate>LABEL.EMAIL</translate></label>
+                            <output>{{bean.cliente.email}}</output>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="control-label"><translate>LABEL.TELEFONE</translate></label>
+                            <output>{{bean.cliente.telefone | brPhoneNumber}}</output>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label"><translate>LABEL.ENDERECO</translate></label>
+                            <output>{{bean.cliente.endereco}}</output>
+                        </div>
+                    </div>
+                    <hr>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="control-label"><translate>LABEL.SALDO</translate></label>
+                            <output>{{contaCorrenteBean.saldo | currency:'$'}}</output>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label class="control-label"><translate>LABEL.TIPO_TRANSACAO</translate></label>
+                            <select class="form-control" name="tipoTransacao" id="tipoTransacao" ng-model="contaCorrenteBean.tipoTransacao"
+                                    data-ng-options="tipo.id as tipo.descricao for tipo in listaTipoTransacao">
+                                <option value="">{{'LABEL.SELECIONE' | translate}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2" data-ng-show="contaCorrenteBean.tipoTransacao !== 3">
+                            <label class="control-label"><translate>LABEL.VALOR</translate></label>
+                            <input class="form-control" data-ng-model="contaCorrenteBean.valor" ui-money-mask />
+                        </div>
+                        <div class="col-md-2" data-ng-show="bean.beanDestinatarioTransferencia.nome && contaCorrenteBean.tipoTransacao === 3">
+                            <label class="control-label"><translate>LABEL.VALOR</translate></label>
+                            <input class="form-control" data-ng-model="contaCorrenteDestinatarioTransferenciaBean.valor" ui-money-mask/>
+                        </div>
+                        <div class="col-md-2"
+                             data-ng-show="contaCorrenteBean.tipoTransacao === 3">
+                            <label class="control-label"><translate>LABEL.CPF_TRANSFERENCIA</translate></label>
+                            <input class="form-control" data-ng-model="bean.beanDestinatarioTransferencia.cpf" id="cpfDestinatarioTransferencia" name="cpfDestinatarioTransferencia" data-ng-blur="consultarDestinatarioTransferencia(bean.beanDestinatarioTransferencia.cpf)" ui-br-cpf-mask>
+                        </div>
+                        <div class="col-md-6" data-ng-show="contaCorrenteBean.tipoTransacao === 3">
+                            <label class="control-label"><translate>LABEL.NOME</translate></label>
+                            <input class="form-control" data-ng-model="bean.beanDestinatarioTransferencia.nome" disabled="true">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="text-right" data-ng-show="contaCorrenteBean.tipoTransacao === 3">
+                            <button type="button" class="btn btn-warning botao" data-ng-click="efetuarTransacao(beanDestinatarioTransferencia);">
+                                <span class="glyphicon glyphicon-ok">&nbsp;</span><translate>LABEL.REALIZAR_TRANSACAO</translate>
+                            </button>
+                        </div>
+                        <div class="text-right" data-ng-show="contaCorrenteBean.tipoTransacao !== 3">
+                            <button type="button" class="btn btn-warning botao" data-ng-click="efetuarTransacao();">
+                                <span class="glyphicon glyphicon-ok">&nbsp;</span><translate>LABEL.REALIZAR_TRANSACAO</translate>
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="text-right">
+                        <button type="button" class="btn btn-warning botao" data-ng-click="sair();">
+                            <span class="glyphicon glyphicon-refresh">&nbsp;</span><translate>LABEL.SAIR</translate>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
