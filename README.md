@@ -1,2 +1,3 @@
 # contaCorrente
+# this project in java, angularJs, ejb...
 #is need of the jboss server
